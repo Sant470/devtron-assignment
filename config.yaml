@@ -1,0 +1,6 @@
+REDIS:
+  Host: localhost
+  Port: 6379
+  Username:
+  Password: 
+
