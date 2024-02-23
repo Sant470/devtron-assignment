@@ -41,6 +41,7 @@ func (searchSvc *SearchService) Search(searchReq *apptypes.SearchReq) (*apptypes
 		close(quit)
 		close(matchChannel)
 	}()
+
 	cli, err := s3.NewClient(searchSvc.lgr)
 	if err != nil {
 		return nil, errors.BadRequest(err.Error())
@@ -48,9 +49,9 @@ func (searchSvc *SearchService) Search(searchReq *apptypes.SearchReq) (*apptypes
 	for start := searchReq.From; start < searchReq.To; {
 		hour, date := dateTimeFormat(start)
 		pathSuffix := fmt.Sprintf("%s%s%s%s%s", date, "/", hour, ".", "txt")
-		go func(pathSuffix string) {
+		go func(suffix string) {
 			sem <- struct{}{}
-			searchSvc.searchRemoteFile(cli, pathSuffix, searchReq.SearchKeyword, matchChannel, quit)
+			searchSvc.searchRemoteFile(cli, suffix, searchReq.SearchKeyword, matchChannel, quit)
 			<-sem
 		}(pathSuffix)
 		start += int64(3600)
