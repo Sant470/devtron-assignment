@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/sant470/devetron/services"
-	"github.com/sant470/devetron/types/req"
+	apptypes "github.com/sant470/devetron/types"
 	"github.com/sant470/devetron/utils"
 	"github.com/sant470/devetron/utils/errors"
 	"github.com/sant470/devetron/utils/respond"
@@ -21,7 +21,7 @@ func NewSearchHandler(lgr *log.Logger, svc *services.SearchService) *SearchHandl
 }
 
 func (sh *SearchHandler) Search(rw http.ResponseWriter, r *http.Request) *errors.AppError {
-	var req req.SearchReq
+	var req apptypes.SearchReq
 	if err := utils.Decode(r, &req); err != nil {
 		return err
 	}
