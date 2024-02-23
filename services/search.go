@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/sant470/devetron/lib/s3"
 	apptypes "github.com/sant470/devetron/types"
 	"github.com/sant470/devetron/utils/errors"
 )
@@ -40,13 +41,16 @@ func (searchSvc *SearchService) Search(searchReq *apptypes.SearchReq) (*apptypes
 		close(quit)
 		close(matchChannel)
 	}()
-
+	cli, err := s3.NewClient(searchSvc.lgr)
+	if err != nil {
+		return nil, errors.BadRequest(err.Error())
+	}
 	for start := searchReq.From; start < searchReq.To; {
 		hour, date := dateTimeFormat(start)
 		pathSuffix := fmt.Sprintf("%s%s%s%s%s", date, "/", hour, ".", "txt")
 		go func(pathSuffix string) {
 			sem <- struct{}{}
-			searchSvc.searchRemoteFile(pathSuffix, searchReq.SearchKeyword, matchChannel, quit)
+			searchSvc.searchRemoteFile(cli, pathSuffix, searchReq.SearchKeyword, matchChannel, quit)
 			<-sem
 		}(pathSuffix)
 		start += int64(3600)

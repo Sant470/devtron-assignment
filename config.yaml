@@ -1,6 +1,3 @@
-REDIS:
-  Host: localhost
-  Port: 6379
-  Username:
-  Password: 
-
+AWS:
+  AccessKeyID: 
+  SecretAccessKey:

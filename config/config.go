@@ -9,6 +9,12 @@ import (
 )
 
 type Config struct {
+	AWS AWSCredential
+}
+
+type AWSCredential struct {
+	AccessKeyID     string
+	SecretAccessKey string
 }
 
 func GetAppConfig(filename, path string) *Config {

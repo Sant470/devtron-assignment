@@ -13,7 +13,6 @@ import (
 func main() {
 	lgr := log.Default()
 	lgr.Println("info: starting the server")
-	// appConf := config.GetAppConfig("config", "./")
 	router := config.InitRouters()
 	searchSvc := services.NewSearchService(lgr)
 	searchHlr := handlers.NewSearchHandler(lgr, searchSvc)
