@@ -11,7 +11,7 @@ The service has the following responsibilities
 Clone the project
 
 ```bash
-  git clone 
+  git clone git@github.com:Sant470/devetron-grep-apis.git
 ```
 
 Go to the project directory

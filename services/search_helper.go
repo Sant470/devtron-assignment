@@ -45,11 +45,11 @@ func (searchSvc *SearchService) searchRemoteFile(cli *s3.Client, pathSuffix stri
 		if err != nil {
 			continue
 		}
-		if match {
-			select {
-			case <-cancelSig:
-				return
-			default:
+		select {
+		case <-cancelSig:
+			return
+		default:
+			if match {
 				out <- apptypes.Match{
 					Line:     lineNo,
 					FilePath: pathSuffix,
