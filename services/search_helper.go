@@ -28,6 +28,7 @@ func (searchSvc *SearchService) searchRemoteFile(cli *s3.Client, pathSuffix stri
 	barr, err := cli.GetS3ObjectBuffer(consts.Bucket, pathSuffix)
 	if err != nil {
 		searchSvc.lgr.Printf("error getting file: %s, error: %s", pathSuffix, err.Error())
+		return
 	}
 	reader := bufio.NewReader(bytes.NewReader(barr))
 	lineNo := 0
